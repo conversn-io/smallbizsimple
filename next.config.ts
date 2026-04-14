@@ -23,6 +23,7 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   // Exclude Supabase Edge Functions from Next.js build
+  turbopack: {},
   webpack: (config) => {
     config.watchOptions = {
       ...config.watchOptions,
