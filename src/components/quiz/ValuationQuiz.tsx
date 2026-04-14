@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { QuizProgress } from './QuizProgress';
 import { QuizQuestion } from './QuizQuestion';
-import { OTPVerification } from './OTPVerification';
 import { ProcessingState } from './ProcessingState';
 import { IndustrySelector } from './IndustrySelector';
 import { RangeSelector } from './RangeSelector';
@@ -63,7 +62,6 @@ export const ValuationQuiz = () => {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, any>>({});
-  const [showOTP, setShowOTP] = useState(false);
   const [showProcessing, setShowProcessing] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [valuationResult, setValuationResult] = useState<ValuationResult | null>(null);
@@ -168,30 +166,11 @@ export const ValuationQuiz = () => {
   const handlePersonalInfoSubmit = async (answer: any) => {
     setAnswers(prev => ({ ...prev, personal_info: answer }));
     trackQuestionAnswer('personal_info', answer, stepsConfig.length, stepsConfig.length, quizSessionId || 'unknown', 'business_valuation');
-    if (answer.phone) {
-        setShowOTP(true);
-    } else {
-        await finishQuiz(answer);
-    }
-  };
-
-  const handleOTPComplete = async () => {
-    setShowOTP(false);
-    await finishQuiz(answers.personal_info);
+    await finishQuiz(answer);
   };
 
   if (showProcessing) {
     return <ProcessingState message="Calculating your valuation..." isComplete={false} />;
-  }
-
-  if (showOTP) {
-    return (
-      <OTPVerification
-        phoneNumber={answers.personal_info?.phone || ''}
-        onVerificationComplete={handleOTPComplete}
-        onBack={() => setShowOTP(false)}
-      />
-    );
   }
 
   if (showResults && valuationResult) {
