@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-const nextConfig = {
+const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
@@ -17,16 +17,11 @@ const nextConfig = {
       },
     ],
   },
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
-  },
   // Exclude Supabase Edge Functions from Next.js build
   turbopack: {},
-  webpack: (config) => {
+  webpack: (config: Record<string, unknown>) => {
     config.watchOptions = {
-      ...config.watchOptions,
+      ...(config.watchOptions as Record<string, unknown>),
       ignored: ['**/supabase/functions/**'],
     };
     return config;
