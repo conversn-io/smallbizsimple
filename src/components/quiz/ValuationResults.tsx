@@ -5,12 +5,30 @@ import { ValuationResult } from '../../lib/valuation-calculator';
 import { Check, X, Minus } from 'lucide-react';
 import Link from 'next/link';
 
-interface ValuationResultsProps {
-  result: ValuationResult;
+interface PersonalInfo {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
 }
 
-export function ValuationResults({ result }: ValuationResultsProps) {
+interface ValuationResultsProps {
+  result: ValuationResult;
+  personalInfo?: PersonalInfo;
+}
+
+export function ValuationResults({ result, personalInfo }: ValuationResultsProps) {
   const formatCurrency = (val: number) => '$' + val.toLocaleString('en-US');
+
+  // Build schedule URL with pre-filled contact info
+  const scheduleParams = new URLSearchParams();
+  if (personalInfo?.email) scheduleParams.append('email', personalInfo.email);
+  if (personalInfo?.firstName) scheduleParams.append('firstName', personalInfo.firstName);
+  if (personalInfo?.lastName) scheduleParams.append('lastName', personalInfo.lastName);
+  if (personalInfo?.phone) scheduleParams.append('phone', personalInfo.phone);
+  const scheduleUrl = scheduleParams.toString()
+    ? `/schedule?${scheduleParams.toString()}`
+    : '/schedule';
 
   return (
     <div className="max-w-3xl mx-auto py-8 px-4 sm:px-6">
@@ -92,9 +110,9 @@ export function ValuationResults({ result }: ValuationResultsProps) {
          <h2 className="text-2xl font-bold text-gray-900 mb-2">Want a Professional Valuation?</h2>
          <p className="text-gray-600 mb-6">This estimate uses industry averages. A business broker can value your specific business using comparable sales in your true market.</p>
          
-         <button className="w-full bg-[#FF8C42] text-white py-4 rounded-xl font-bold text-lg hover:bg-orange-600 transition-colors shadow-md">
+         <Link href={scheduleUrl} className="block w-full bg-[#FF8C42] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#E67A3A] transition-colors shadow-md text-center">
             Get a Free Professional Valuation
-         </button>
+         </Link>
          <div className="text-xs text-gray-400 mt-3">No cost. No obligation.</div>
       </div>
 

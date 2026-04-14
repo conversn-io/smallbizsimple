@@ -174,7 +174,7 @@ export const ValuationQuiz = () => {
   }
 
   if (showResults && valuationResult) {
-    return <ValuationResults result={valuationResult} />;
+    return <ValuationResults result={valuationResult} personalInfo={answers.personal_info} />;
   }
 
   const stepInfo = stepsConfig[currentStep];
