@@ -178,7 +178,7 @@ export default function RootLayout({
         )}
       </head>
       <body
-        className={`${inter.variable} ${openSans.variable} ${ibmPlexSans.variable} antialiased`}
+        className={`${inter.variable} ${openSans.variable} ${ibmPlexSans.variable} min-h-screen bg-sbs-bg text-sbs-body antialiased`}
       >
         {/* Google Tag Manager (noscript) */}
         <noscript>
@@ -190,11 +190,13 @@ export default function RootLayout({
           />
         </noscript>
         {/* End Google Tag Manager (noscript) */}
-        
+
         <LayoutProvider>
-          <ConditionalHeader />
-          <main>{children}</main>
-          <ConditionalFooter />
+          <div className="flex min-h-screen flex-col">
+            <ConditionalHeader />
+            <div className="flex-1">{children}</div>
+            <ConditionalFooter />
+          </div>
         </LayoutProvider>
       </body>
     </html>
