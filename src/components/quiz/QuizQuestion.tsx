@@ -79,18 +79,21 @@ export const QuizQuestion = ({ question, onAnswer, currentAnswer, isLoading }: Q
               value={textValue}
               onChange={(e) => {
                 const value = e.target.value;
+                let processedValue = value;
                 if (question.id === 'phone') {
                   // Format phone input
                   const digits = value.replace(/\D/g, '').slice(0, 10);
                   setTextValue(formatPhoneForInput(digits));
+                  processedValue = digits;
                 } else if (question.id === 'zip_code') {
                   // Only allow digits, max 5
                   const digits = value.replace(/\D/g, '').slice(0, 5);
                   setTextValue(digits);
+                  processedValue = digits;
                 } else {
                   setTextValue(value);
                 }
-                handleTextChange(question.id === 'phone' ? digits : question.id === 'zip_code' ? value.replace(/\D/g, '').slice(0, 5) : value);
+                handleTextChange(processedValue);
               }}
               placeholder={question.placeholder}
               className="quiz-input w-full px-6 py-4 text-lg border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-[#2B4D79]/20 focus:border-[#2B4D79] transition-all"
