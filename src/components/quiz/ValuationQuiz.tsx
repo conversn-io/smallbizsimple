@@ -151,6 +151,29 @@ export const ValuationQuiz = () => {
         body: JSON.stringify(capturePayload)
       }).catch(console.error);
 
+      // Subscribe to Publishare newsletter
+      try {
+        await fetch(
+          'https://vpysqshhafthuxvokwqj.supabase.co/functions/v1/subscribe',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: personalInfo.email,
+              site_id: 'smallbizsimple',
+              first_name: personalInfo.firstName ?? null,
+              last_name: personalInfo.lastName ?? null,
+              source: 'quiz',
+              source_detail: 'business-valuation-quiz',
+              quiz_context: answers,
+              tags: ['quiz_completed'],
+            }),
+          }
+        );
+      } catch (_) {
+        // silent fail — never block the user flow
+      }
+
       const completionTime = Math.round((Date.now() - quizStartTime) / 1000);
       trackQuizComplete('business_valuation', quizSessionId || 'unknown', 'business_valuation', completionTime);
       

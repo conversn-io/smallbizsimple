@@ -453,6 +453,30 @@ export const BusinessFundingQuiz = () => {
           timestamp: new Date().toISOString()
         });
 
+        // Subscribe to Publishare newsletter
+        try {
+          await fetch(
+            'https://vpysqshhafthuxvokwqj.supabase.co/functions/v1/subscribe',
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                email: personalInfo.email,
+                site_id: 'smallbizsimple',
+                first_name: personalInfo.firstName ?? null,
+                last_name: personalInfo.lastName ?? null,
+                zip_code: answers.zip_code ?? null,
+                source: 'quiz',
+                source_detail: 'business-funding-quiz',
+                quiz_context: answers,
+                tags: ['quiz_completed'],
+              }),
+            }
+          );
+        } catch (_) {
+          // silent fail — never block the user flow
+        }
+
         // Track quiz completion
         const completionTime = Math.round((Date.now() - quizStartTime) / 1000);
         trackQuizComplete('business_funding', quizSessionId || 'unknown', 'business_funding', completionTime);
