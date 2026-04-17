@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { QuizProgress } from './QuizProgress';
 import { QuizQuestion } from './QuizQuestion';
@@ -60,6 +60,7 @@ const stepsConfig = [
 
 export const ValuationQuiz = () => {
   const router = useRouter();
+  const quizTopRef = useRef<HTMLDivElement>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [showProcessing, setShowProcessing] = useState(false);
@@ -107,7 +108,7 @@ export const ValuationQuiz = () => {
     trackQuestionAnswer(stepConfig.id, answers[stepConfig.id], currentStep + 1, stepsConfig.length, quizSessionId || 'unknown', 'business_valuation');
     if (currentStep < stepsConfig.length - 1) {
       setCurrentStep(prev => prev + 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      quizTopRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -116,7 +117,7 @@ export const ValuationQuiz = () => {
     trackQuestionAnswer('industry', code, 1, stepsConfig.length, quizSessionId || 'unknown', 'business_valuation');
     setTimeout(() => {
       setCurrentStep(1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      quizTopRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 250);
   };
 
@@ -203,7 +204,7 @@ export const ValuationQuiz = () => {
   const stepInfo = stepsConfig[currentStep];
 
   return (
-    <div className="max-w-2xl mx-auto p-4 sm:p-6 min-h-screen">
+    <div ref={quizTopRef} className="max-w-2xl mx-auto p-4 sm:p-6 min-h-screen scroll-mt-4">
       <div className="mb-6 flex items-center">
          {currentStep > 0 && (
             <button 
