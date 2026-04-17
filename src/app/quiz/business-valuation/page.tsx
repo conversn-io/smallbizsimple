@@ -1,21 +1,19 @@
 import { Metadata } from 'next';
-import { ValuationQuiz } from '@/components/quiz/ValuationQuiz';
+import { ExitReadinessLanding } from '@/components/landing/ExitReadinessLanding';
 
 export const metadata: Metadata = {
-  title: "What's Your Business Worth? Free Valuation Estimate - SmallBizSimple",
-  description: 'Get a free estimate of your business value in 2 minutes. Based on real industry sales data from 9,500+ transactions.',
+  title: 'Exit Readiness Score™ | Business Valuation & Exit Quiz',
+  description:
+    'Find out what your business may be worth, how exit-ready it is, and what factors could increase your sale price. Take the 3-minute Exit Readiness Score™ quiz.',
   openGraph: {
-    title: "What's Your Business Worth? - SmallBizSimple",
-    description: 'Free business valuation estimate based on real industry data. Takes 2 minutes.',
+    title: 'Exit Readiness Score™ | What Is Your Business Worth to a Buyer?',
+    description:
+      'Free business valuation estimate based on real industry data. Takes 3 minutes.',
     url: 'https://smallbizsimple.org/quiz/business-valuation',
   },
   robots: { index: true, follow: true },
 };
 
 export default function BusinessValuationPage() {
-  return (
-    <div className="bg-gray-50 min-h-screen py-8">
-      <ValuationQuiz />
-    </div>
-  );
+  return <ExitReadinessLanding />;
 }
