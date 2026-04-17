@@ -66,7 +66,8 @@ export function ExitReadinessLanding() {
 
   return (
     <div className="bg-white min-h-screen">
-      {/* ═══ HERO ═══ */}
+      {/* ═══ HERO — hidden when quiz is active ═══ */}
+      {!showQuiz && (
       <section className="relative overflow-hidden bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] text-white">
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28">
@@ -160,6 +161,7 @@ export function ExitReadinessLanding() {
           </div>
         </div>
       </section>
+      )}
 
       {/* ═══ QUIZ EMBED ═══ */}
       <section id="quiz-section" className="py-12 sm:py-16 bg-[#F8FAFC]">
@@ -191,6 +193,9 @@ export function ExitReadinessLanding() {
           )}
         </div>
       </section>
+
+      {/* ═══ Below sections hidden when quiz is active ═══ */}
+      {!showQuiz && (<>
 
       {/* ═══ HOW IT WORKS ═══ */}
       <section id="how-it-works" className="py-16 sm:py-20 bg-white">
@@ -413,6 +418,8 @@ export function ExitReadinessLanding() {
           </button>
         </div>
       </section>
+
+      </>)}
     </div>
   );
 }

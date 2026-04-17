@@ -7,9 +7,9 @@ import { QuizQuestion } from './QuizQuestion';
 import { ProcessingState } from './ProcessingState';
 import { IndustrySelector } from './IndustrySelector';
 import { RangeSelector } from './RangeSelector';
-import { ValuationResults } from './ValuationResults';
+// Results now on their own route — /quiz/business-valuation/results
 import { INDUSTRIES, REVENUE_RANGES, SDE_RANGES } from '../../data/industry-multiples';
-import { calculateValuation, ValuationResult } from '../../lib/valuation-calculator';
+import { calculateValuation } from '../../lib/valuation-calculator';
 import { 
   initializeTracking, 
   trackQuestionAnswer, 
@@ -64,8 +64,6 @@ export const ValuationQuiz = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [showProcessing, setShowProcessing] = useState(false);
-  const [showResults, setShowResults] = useState(false);
-  const [valuationResult, setValuationResult] = useState<ValuationResult | null>(null);
   
   const [quizSessionId, setQuizSessionId] = useState<string | null>(null);
   const [utmParams, setUtmParams] = useState<UTMParameters | null>(null);
@@ -133,8 +131,11 @@ export const ValuationQuiz = () => {
         ownerDependency: answers.dependency,
         customerConcentration: answers.concentration
       });
-      setValuationResult(result);
-      
+
+      // Store results for the results page
+      sessionStorage.setItem('valuation_result', JSON.stringify(result));
+      sessionStorage.setItem('valuation_personal_info', JSON.stringify(personalInfo));
+
       const capturePayload = {
         email: personalInfo.email,
         firstName: personalInfo.firstName,
@@ -177,9 +178,9 @@ export const ValuationQuiz = () => {
 
       const completionTime = Math.round((Date.now() - quizStartTime) / 1000);
       trackQuizComplete('business_valuation', quizSessionId || 'unknown', 'business_valuation', completionTime);
-      
+
       setShowProcessing(false);
-      setShowResults(true);
+      router.push('/quiz/business-valuation/results');
     } catch (e) {
       console.error(e);
       setShowProcessing(false);
@@ -195,10 +196,6 @@ export const ValuationQuiz = () => {
 
   if (showProcessing) {
     return <ProcessingState message="Calculating your valuation..." isComplete={false} />;
-  }
-
-  if (showResults && valuationResult) {
-    return <ValuationResults result={valuationResult} personalInfo={answers.personal_info} />;
   }
 
   const stepInfo = stepsConfig[currentStep];
