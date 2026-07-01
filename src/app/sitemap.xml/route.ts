@@ -6,7 +6,7 @@ const SUPABASE_URL = "https://vpysqshhafthuxvokwqj.supabase.co";
 const ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZweXNxc2hoYWZ0aHV4dm9rd3FqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAzNTY3ODcsImV4cCI6MjA2NTkzMjc4N30.fza16gc2qHpGzzMFa1H3O6W-YIsVTsCLH9uYy9pR31I";
 
 export const revalidate = 3600;
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
   const host = new URL(req.url).host;
